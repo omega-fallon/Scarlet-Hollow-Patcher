@@ -1,0 +1,23 @@
+try:
+    current_file_dir = os.path.join(game_dir, r'monday_script\monday_woods.rpy')
+    attempting_to_patch(current_file_dir)
+    
+    if string_in_file(current_file_dir,"Oh, you know... just regular streams.") == False:
+        glo_lines_update(current_file_dir)
+        fa_script_anchor = glo_lines.index("                \"{i}• ''I play video games.''{/i}\":\n")
+        
+        fa_script_replacement_line_list = [
+        "                \"{i}• (Hot) ''Oh, you know... just regular streams.''{/i}\" if hot:\n",
+        "                    $ streamer_type = \"onlyfans\"\n",
+        "                    show stella overlook listen\n",
+        "                    p \"''Oh, you know... just regular streams. Regular streams for my fans, and only my fans.''\"\n",
+        "                    show stella overlook shrug\n",
+        "                    stella \"''Oh, I getcha. That's cool. Make that money, y'know?''\"\n",
+        "                \n",
+        ]
+        
+        fa_script_replacement_line = "".join(fa_script_replacement_line_list) + glo_lines[fa_script_anchor]
+        
+        replace_line(current_file_dir, fa_script_anchor, fa_script_replacement_line)
+except:
+    patching_unsuccessful()

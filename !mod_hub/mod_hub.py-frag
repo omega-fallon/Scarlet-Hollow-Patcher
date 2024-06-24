@@ -1,0 +1,17 @@
+try:
+    current_file_dir = os.path.join(game_dir, 'script.rpy')
+    attempting_to_patch(current_file_dir)
+    
+    glo_lines_update(current_file_dir)
+
+    if glo_lines[540] == "        scene bg_character_creation\n":
+        if glo_lines[564] != 'jump mod_hub\n':
+            replace_line(current_file_dir, 564, 'jump mod_hub\nlabel bus_start:\n')
+            print("Patching line 564 successful.")
+        else:
+            print("Skipping line 564, no patch needed.")
+    else:
+        errors += 1
+        print("ERROR! Lines 540 & 564 couldn't be confirmed.")
+except:
+    patching_unsuccessful()

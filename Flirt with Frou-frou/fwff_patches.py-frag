@@ -1,0 +1,345 @@
+# monday
+try:
+    current_file_dir = os.path.join(game_dir, r'script.rpy')
+    attempting_to_patch(current_file_dir)
+    
+    if string_in_file(current_file_dir,"C'est un plaisir de vous rencontrer, belle femme.") == False:
+        glo_lines_update(current_file_dir)
+        fwff_script_anchor = glo_lines.index("                    \"{i}• (Book Smart) ''Ah, vous parlez Français!''{/i}\" if book_smart:\n")
+        
+        fwff_script_replacement_line_list = (
+        "                    \"{i}• (Book Smart and Hot) (Flirt) ''C'est un plaisir de vous rencontrer, belle femme.''{/i}\" if book_smart and hot:\n",
+        "                        default fwff_monday_bookhot_flirt = False\n",
+        "                        $ fwff_monday_bookhot_flirt = True\n",
+        "                        \n",
+        "                        default froufrou_flirt = 0\n",
+        "                        $ froufrou_flirt += 1\n",
+        "                        \n",
+        "                        $ tabitha_talked_froufrou_count +=1\n",
+        "                        $ achievement.grant(\"ACH_combo\")\n",
+        "                        $ book_count += 1\n",
+        "                        $ hot_count += 1\n",
+        "                        $ froufrou_respect -= 1\n",
+        "                        $ tabitha_relationship[\"bold\"] += 1\n",
+        "                        $ tabitha_relationship[\"open\"] += 1\n",
+        "                        p \"''C'est un plaisir de vous rencontrer, belle femme.''\"\n",
+        "                        show froufrou counter disgust\n",
+        "                        froufrou \"''Ugh! Spare me your false pleasantries and clumsily-spoken French, American. I am not your chatte des rues. Find another of your kind and leave me alone.''\"\n",# "chatte des rues" is a play on the French term "fille des rues" and the English term "alley cat", both of which mean a prostitute. I may or may not be writing Frou-frou as a tsundere here. so... I think she might actually like you a little bit after this????? I have no fucking clue where I'm going with this tbh
+        "                        show froufrou counter superior\n",
+        "                        tabitha \"''Ha. Ha. Very funny. Her name sounds French. Stop wasting my time and let's finish the tour.''\"\n",
+        "                    \n",
+        )
+        
+        fwff_script_replacement_line = "".join(fwff_script_replacement_line_list) + glo_lines[fwff_script_anchor]
+        
+        replace_line(current_file_dir, fwff_script_anchor, fwff_script_replacement_line)
+        
+    if string_in_file(current_file_dir,"Well hello there, pretty lady.") == False:
+        glo_lines_update(current_file_dir)
+        fwff_script_anchor = glo_lines.index("                    \"{i}• Pet her.{/i}\":\n")
+        
+        fwff_script_replacement_line_list = (
+        "                    \"{i}• (Hot) (Flirt) ''Well hello there, pretty lady.''{/i}\" if hot:\n",
+        "                        default fwff_monday_hot_flirt = False\n",
+        "                        $ fwff_monday_hot_flirt = True\n",
+        "                        \n",
+        "                        $ tabitha_talked_froufrou_count +=1\n",
+        "                        $ achievement.grant(\"ACH_combo\")\n",
+        "                        $ hot_count += 1\n",
+        "                        $ froufrou_respect -= 1\n",
+        "                        $ froufrou_flirt += 1\n",
+        "                        $ tabitha_relationship[\"bold\"] += 2\n",
+        "                        $ tabitha_relationship[\"dull\"] += 2\n",
+        "                        p \"''Well hello there, pretty lady.''\"\n",
+        "                        show froufrou counter disgust\n",
+        "                        froufrou \"''Ugh! What a disgusting creature you are. I am not your chatte des rues, you filthy American. Find another of your kind and leave me alone.''\"\n",
+        "                        show froufrou counter superior\n",
+        "                        tabitha \"''Ugh, stop wasting my time you weirdo. Let's finish the tour.''\"\n",
+        "                    \n",
+        )
+        
+        fwff_script_replacement_line = "".join(fwff_script_replacement_line_list) + glo_lines[fwff_script_anchor]
+        
+        replace_line(current_file_dir, fwff_script_anchor, fwff_script_replacement_line)
+        
+except:
+    patching_unsuccessful()
+
+# monday in town
+try:
+    current_file_dir = os.path.join(game_dir, r'monday_script\monday_part_2.rpy')
+    attempting_to_patch(current_file_dir)
+    
+    if line_in_file(current_file_dir,"                label fwff_monday2_froufrou_stella_reaction_join:\n") == False:
+        glo_lines_update(current_file_dir)
+        temp_i = glo_lines.index("                stella \"''Wait, what? Are... are you messing with me? You can't actually talk to my dog, right?''\"\n")
+        
+        replace_line(current_file_dir, temp_i-1, "                label fwff_monday2_froufrou_stella_reaction_join:\n"+glo_lines[temp_i-1])
+    
+    if string_in_file(current_file_dir,"Oh, I have indeed. She's quite the lady.") == False:
+        glo_lines_update(current_file_dir)
+        fwff_script_anchor = glo_lines.index("            \"{i}• (Talk to Animals) ''Ugh, Tabitha's cat? Unfortunately, we've met.''{/i}\" if met_froufrou:\n")
+        
+        fwff_monday2_replacement_line_list = (
+        "            \"{i}• (Hot and Talk to Animals) ''Oh, I have indeed. She's quite the lady.''{/i}\" if met_froufrou and hot and animals and froufrou_flirt > 0:\n",
+        "                $ stella_animals_confront = True\n",
+        "                $ stella_animals += 1\n",
+        "                $ stella_relationship[\"bold\"]+=1\n",
+        "                $ stella_relationship[\"unreliable\"]+=1\n",
+        "                p \"''Oh, I have indeed. She's quite the lady.''\"\n",
+        "                jump fwff_monday2_froufrou_stella_reaction_join\n",
+        "                \n",
+        )
+        
+        fwff_monday2_replacement_line = "".join(fwff_monday2_replacement_line_list) + glo_lines[fwff_script_anchor]
+        
+        replace_line(current_file_dir, fwff_script_anchor, fwff_monday2_replacement_line)
+except:
+    patching_unsuccessful()
+
+# tuesday morning
+try:
+    current_file_dir = os.path.join(game_dir, r'tuesday_script\tuesday_start_tabitha.rpy')
+    attempting_to_patch(current_file_dir)
+    
+    if string_in_file(current_file_dir,"Tu es une très beau chatte.") == False:
+        glo_lines_update(current_file_dir)
+        try:
+            fwff_script_anchor = glo_lines.index("                \"{i}• (Explore) ''Excuse me, ma'am, may I pet you?''{/i}\" if tuesday_froufrou_pet_ask == False:\n")
+        except:
+            fwff_script_anchor = glo_lines.index("                \"{i}• (Explore) ''Excuse me, ma'am, may I pet you?''{/i}\" if tuesday_froufrou_pet_ask == False and tuesday_froufrou_pet == False:\n")
+        
+        fwff_tuesdaymorn_replacement_line_list = (
+        "                \"{i}• (Explore) (Book Smart) ''Tu es une très beau chatte.''{/i}\" if book_smart and fwff_tues_tresbeau == False and fwff_tues_mostbeautiful == False:\n",
+        "                    default fwff_tues_tresbeau = False\n",
+        "                    $ fwff_tues_tresbeau = True\n",
+        "                    \n",
+        "                    $ achievement.grant(\"ACH_combo\")\n",
+        "                    \n",
+        "                    p \"''Tu es une très beau chatte.''\"\n",
+        "                    show froufrou counter disgust\n",
+        "                    if froufrou_flirt > 0:\n",
+        "                        default fwff_incompetent_with_girls = False\n",
+        "                        $ fwff_incompetent_with_girls = True\n",
+        "                        \n",
+        "                        $ froufrou_respect -= 1\n",
+        "                        $ froufrou_flirt += 1\n",
+        "                        froufrou \"''Mon dieu, again with ze flirtation?''\"\n",
+        "                        show froufrou counter superior\n",
+        "                        froufrou \"''Are you truly so helpless with ze girls zat zis iz what you must resort to? Speaking 'igh school-level French in an attempt to woo a cat? Pathétique.''\"\n",
+        "                    else:\n",
+        "                        $ froufrou_respect += 1\n",
+        "                        froufrou \"'''Tu es une très beau chatte'... what next, are you going to ask me where ze bathroom iz? Be confused about ze difference between 'œil' et 'yeux'?''\"\n",
+        "                        show froufrou counter superior\n",
+        "                        froufrou \"''Surely you must 'ave learned in zat pitiful 'igh school French class of yours zat you are to use 'vous' when speaking to superiors, non? Or better yet, stop defiling my beautiful language with your filthy American tongue at all.''\"\n",
+        "                        froufrou \"''And while you are at eet, cease ze flattery as well. Eet will only make me view you as even more pathétique.''\"\n",
+        "                    jump tuesday_froufrou_chat\n",
+        "                \n",
+        "                \"{i}• (Explore) (Hot) (Flirt) ''My dear, you are the most beautiful creature I've ever laid eyes upon.''{/i}\" if hot and fwff_tues_tresbeau == False and fwff_tues_mostbeautiful == False:\n",
+        "                    default fwff_tues_mostbeautiful = False\n",
+        "                    $ fwff_tues_mostbeautiful = True\n",
+        "                    \n",
+        "                    $ achievement.grant(\"ACH_combo\")\n",
+        "                    \n",
+        "                    $ froufrou_respect -= 1\n",
+        "                    $ froufrou_flirt += 1\n",
+        "                    p \"''My dear, you are the most beautiful creature I've ever laid eyes upon.''\"\n",
+        "                    show froufrou counter disgust\n",
+        "                    if froufrou_flirt > 1:\n",
+        "                        $ fwff_incompetent_with_girls = True\n",
+        "                        froufrou \"''Mon dieu, again with ze flirtation?''\"\n",
+        "                        show froufrou counter superior\n",
+        "                        froufrou \"''Are you truly so helpless with ze girls zat zis iz what you must resort to? Impotently attempting to romance a cat? Pathétique.''\"\n",
+        "                    else:\n",
+        "                        froufrou \"''Mon dieu, est-ce que tu plaisantes? Je suis une {i}{b}chatte{/b}{/i}, toi pervers. Go find some 'uman girl to bother with your disgusting flirtations and leave me alone.''\"\n",
+        "                    jump tuesday_froufrou_chat\n",
+        "                \n",
+        )
+        
+        fwff_tuesdaymorn_replacement_line = "".join(fwff_tuesdaymorn_replacement_line_list) + glo_lines[fwff_script_anchor]
+        
+        replace_line(current_file_dir, fwff_script_anchor, fwff_tuesdaymorn_replacement_line)
+except:
+    patching_unsuccessful()
+
+# tuesday night
+try:
+    current_file_dir = os.path.join(game_dir, r'tuesday_script\tuesday_mines_scripts\tuesday_ride_home.rpy')
+    attempting_to_patch(current_file_dir)
+    
+    glo_lines_update(current_file_dir)
+    
+    if string_in_file(current_file_dir,"queutard") == False:
+        fwff_baka_replacement_line_list = (
+        "        if froufrou_flirt > 0 and gender == \"female\":\n",
+        "            froufrou \"''Don't read into zis, queutarde. Ze woman kicked me out. Just want a warm place to sleep.''\"\n",
+        "        elif froufrou_flirt > 0:\n",
+        "            froufrou \"''Don't read into zis, queutard. Ze woman kicked me out. Just want a warm place to sleep.''\"\n",
+        "        else:\n",
+        "            froufrou \"''Don't read into zis. Ze woman kicked me out. Just want a warm place to sleep.''\"\n",
+        )
+        
+        replace_line(current_file_dir, (glo_lines.index("    \"{i}Just the cat. It's always just the cat.{/i}\"\n")+2), "".join(fwff_baka_replacement_line_list))
+except:
+    patching_unsuccessful()
+
+# wednesday
+try:
+    current_file_dir = os.path.join(game_dir, r'wednesday_script\wednesday_start.rpy')
+    attempting_to_patch(current_file_dir)
+    
+    if string_in_file(current_file_dir,"Bonjour, Frou-frou. J'ai bien dormi la nuit dernière avec toi et ta chaleur pour me tenir compagnie.") == False:
+        glo_lines_update(current_file_dir)
+        fwff_script_anchor = glo_lines.index("            \"{i}• (Explore) (Talk to Animals) ''Bonjour, Frou-frou.''{/i}\" if wednesday_kitchen_froufrou == False and animals:\n")
+        
+        fwff_wednesday_replacement_line_list = (
+        "            \"{i}• (Explore) (Book Smart, Hot, and Talk to Animals) (Flirt) ''Bonjour, Frou-frou. J'ai bien dormi la nuit dernière avec toi et ta chaleur pour me tenir compagnie.''{/i}\" if wednesday_kitchen_froufrou == False and book_smart and hot and animals:\n",
+        "                default fwff_wednesday_bookhot_flirt = False\n",
+        "                $ fwff_wednesday_bookhot_flirt = True\n",
+        "                \n",
+        "                $ froufrou_respect -= 1\n",
+        "                $ froufrou_flirt += 1\n",
+        "                \n",
+        "                $ achievement.grant(\"ACH_combo\")\n",
+        "                $ tabitha_talked_froufrou_count += 1\n",
+        "                $ wednesday_kitchen_froufrou = True\n",
+        "                $ tabitha_relationship[\"closed\"] += 1\n",
+        "                $ tabitha_relationship[\"adversarial\"] += 1\n",
+        "                show janey wc turn\n",
+        "                show tabitha wk narrow\n",
+        "                p \"''Bonjour, Frou-frou. J'ai bien dormi la nuit dernière avec toi et ta chaleur pour me tenir compagnie.''\"\n", # I slept well last night with you and your warmth to keep me company.
+        "                label fwff_wednesday_staynight_join:\n",
+        "                if froufrou_flirt > 1 and gender == \"female\":\n",
+        "                    froufrou \"''Mon dieu, toi obsédée! I knew eet was a bad idea to sleep at ze foot of your bed. Iz zere anything but perverse thoughts in zat 'ollow 'ead of yours?!''\"\n",
+        "                elif froufrou_flirt > 1:\n",
+        "                    froufrou \"''Mon dieu, toi obsédé! I knew eet was a bad idea to sleep at ze foot of your bed. Iz zere anything but perverse thoughts in zat 'ollow 'ead of yours?!''\"\n",# obsédé, meaning an obsessive pervert
+        "                else:\n",
+        "                    froufrou \"''Mon dieu, toi pervers! I merely slept at ze foot of your bed. Do not twist zis into some kind of lendemain de veille, 'uman. Eet was not an act of intimacy. I still {i}{b}despise{/b}{/i} you.''\"\n",
+        "                froufrou \"''Ugh. Three 'umans at once. Zis iz abhorrent. Your stink will linger 'ere for hours... 'ow am I to bear eet?''\"\n",
+        "                show tabitha wk narrow talk\n",
+        "                show janey wc glance worry\n",
+        "                tabitha \"''The hell is with that tone? Are you flirting with my cat or something?''\"\n",
+        "                show tabitha wk glance dismissive\n",
+        "                show janey wc glance worry talk\n",
+        "                if wednesday_kitchen_meet_janey == False:\n",
+        "                    ujaney \"''You don't talk sweetly to your pets? I always make sure to say nice things to my farm cats and alpaca.''\"\n",
+        "                else:\n",
+        "                    janey \"''You don't talk sweetly to your pets? I always make sure to say nice things to my farm cats and alpaca.''\"\n",
+        "                show tabitha wk glance dismissive\n",
+        "                show janey wc neutral\n",
+        "                jump wednesday_kitchen_chat\n",
+        "            \n",
+        "            \"{i}• (Explore) (Hot and Talk to Animals) (Flirt) ''Thanks for keeping me warm last night, Frou-frou.''{/i}\" if wednesday_kitchen_froufrou == False and hot and animals:\n",
+        "                default fwff_wednesday_hot_flirt = False\n",
+        "                $ fwff_wednesday_hot_flirt = True\n",
+        "                \n",
+        "                $ froufrou_respect -= 1\n",
+        "                $ froufrou_flirt += 1\n",
+        "                \n",
+        "                $ achievement.grant(\"ACH_combo\")\n",
+        "                $ tabitha_talked_froufrou_count += 1\n",
+        "                $ wednesday_kitchen_froufrou = True\n",
+        "                $ tabitha_relationship[\"closed\"] += 1\n",
+        "                $ tabitha_relationship[\"adversarial\"] += 1\n",
+        "                show janey wc turn\n",
+        "                show tabitha wk narrow\n",
+        "                p \"''Thanks for keeping me warm last night, Frou-frou.''\"\n",
+        "                jump fwff_wednesday_staynight_join\n",
+        "            \n",
+        )
+        
+        fwff_wednesday_replacement_line = "".join(fwff_wednesday_replacement_line_list) + glo_lines[fwff_script_anchor]
+        
+        replace_line(current_file_dir, fwff_script_anchor, fwff_wednesday_replacement_line)
+except:
+    patching_unsuccessful()
+
+# thursday
+try:
+    current_file_dir = os.path.join(game_dir, r'thursday_script\thursday_start.rpy')
+    attempting_to_patch(current_file_dir)
+    
+    if string_in_file(current_file_dir,"Frou-frou, ma chérie, tu m'as manquée hier soir!") == False:
+        glo_lines_update(current_file_dir)
+        fwff_script_anchor = glo_lines.index("                        \"{i}• (Explore) ''I made a deal with a ghost so I'm old now.''{/i}\" if wednesday_player_sacrifice and thursday_froufrou_old == False:\n")
+        
+        fwff_thursday_replacement_line_list = (
+        "                        \"{i}• (Explore) (Book Smart and Hot) (Flirt) ''Frou-frou, ma chérie, tu m'as manquée hier soir!''\" if book_smart and hot and romance == False and thursday_froufrou_missed == False:\n",
+        "                            default fwff_thursday_bookhot_flirt = False\n",
+        "                            $ fwff_thursday_bookhot_flirt = True\n",
+        "                            \n",
+        "                            $ thursday_froufrou_missed = True\n",
+        "                            $ thursday_tta_froufrou_count += 1\n",
+        "                            \n",
+        "                            $ froufrou_respect -= 1\n",
+        "                            $ froufrou_flirt += 1\n",
+        "                            $ achievement.grant(\"ACH_combo\")\n",
+        "                            p \"''Frou-frou, ma chérie, tu m'as manquée hier soir!''\"\n",
+        "                            show froufrou counter disgust\n",
+        "                            if (fwff_monday_bookhot_flirt or fwff_monday_hot_flirt) and (fwff_tues_tresbeau or fwff_tues_mostbeautiful) and (fwff_wednesday_bookhot_flirt or fwff_wednesday_hot_flirt):\n",
+        "                                froufrou \"''Mon dieu, iz zis going to be a constant thing? I 'ave not 'ad one single day zis week without you and your perverse, flowery words.''\"\n",
+        "                                \n",
+        "                                default fwff_enjoyingit = False\n",
+        "                                $ fwff_enjoyingit = True\n",
+        "                                \n",
+        "                                show froufrou counter superior\n",
+        "                                froufrou \"''I am not your 'chérie', imbécile. I am much too good for you. But zat does not matter to you, does it? You do not listen. You are a stubborn, brainless little monkey oo does not know 'ow to take 'non' for an answer.''\"\n",
+        "                                show froufrou counter neutral\n",
+        "                                froufrou \"''Hmph. Fine, zen. If I cannot stop your pathétique attempts at romance, maybe I can derive some humour from zem. At least zen, you might be good for something. So go on, bouffon. Try to win me over. I could use some entertainment in zis disgustingly boring 'ouse.''\"\n",# bouffon of course means "buffoon", but it more specifically can be translated as "court jester"
+        "                                \"{i}Well, that's something at least. And it's probably about as good as you're going to get with her, at least for now.{/i}\"\n",
+        "                            elif fwff_incompetent_with_girls:\n",
+        "                                froufrou \"''Mon dieu, again with zis? I am not your 'chérie', imbécile. Je ne suis qu'une chatte domestique. Stop making your inability to romance 'uman women my problem.''\"\n",
+        "                            elif froufrou_flirt > 1:\n",
+        "                                froufrou \"''Mon dieu, again with zis? I am not your 'chérie', imbécile. Je ne suis qu'une chatte domestique.''\"\n",
+        "                                froufrou \"''What 'as broken in zat puny brain of yours zat leads you to try to court me despite zat?''\"\n",
+        "                            else:\n",
+        "                                froufrou \"''Mon dieu, qu'est ce qui ne vas pas chez toi? I am not your 'chérie', imbécile. Je ne suis qu'une chatte domestique.''\"\n",
+        "                                froufrou \"''What 'as broken in zat puny brain of yours zat leads you to try to court me despite zat?''\"\n",
+        "                            jump thursday_froufrou_menu\n",
+        "                        \n",
+        "                        \"{i}• (Explore) (Hot) (Flirt) ''Frou-frou! I missed you last night, dear. Why didn't you come to bed?''{/i}\" if hot and romance == False and thursday_froufrou_missed == False:\n",
+        "                            default fwff_thursday_hot_flirt = False\n",
+        "                            $ fwff_thursday_hot_flirt = True\n",
+        "                            \n",
+        "                            $ thursday_froufrou_missed = True\n",
+        "                            $ thursday_tta_froufrou_count += 1\n",
+        "                            \n",
+        "                            $ froufrou_respect -= 1\n",
+        "                            $ froufrou_flirt += 1\n",
+        "                            $ achievement.grant(\"ACH_combo\")\n",
+        "                            p \"''Frou-frou! I missed you last night, dear. Why didn't you come to bed?''\"\n",
+        "                            show froufrou counter disgust\n",
+        "                            if (fwff_monday_bookhot_flirt or fwff_monday_hot_flirt) and (fwff_tues_tresbeau or fwff_tues_mostbeautiful) and (fwff_wednesday_bookhot_flirt or fwff_wednesday_hot_flirt):\n",
+        "                                froufrou \"''Mon dieu, are you truly zis devoted to pestering me? I 'ave not 'ad one single day zis week without you and your perverse, flowery words.''\"\n",
+        "                                \n",
+        "                                $ fwff_enjoyingit = True\n",
+        "                                \n",
+        "                                show froufrou counter superior\n",
+        "                                froufrou \"''I am not your 'dear', imbécile. I am much too good for you. But zat does not matter to you, does it? You do not listen. You are a stubborn, brainless little monkey oo does not know 'ow to take 'non' for an answer.''\"\n",
+        "                                show froufrou counter neutral\n",
+        "                                froufrou \"''Hmph. Fine, zen. If I cannot stop your pathétique attempts at romance, maybe I can derive some humour from zem. At least zen, you might be good for something. So go on, bouffon. Try to win me over. I could use some entertainment in zis disgustingly boring 'ouse.''\"\n",
+        "                                \"{i}Well, that's something at least. And it's probably about as good as you're going to get with her, at least for now.{/i}\"\n",
+        "                            elif fwff_incompetent_with_girls:\n",
+        "                                froufrou \"''Mon dieu, again with zis? Stop making your inability to romance 'uman women my problem.''\"\n",
+        "                            elif fwff_tues_mostbeautiful:\n",
+        "                                froufrou \"''Mon dieu, again with zis? 'ave I not made it clear zat I despise you, and zat I am, in fact, une chatte?''\"\n",
+        "                                froufrou \"''What 'as broken in zat puny brain of yours zat leads you to try to court me despite zat?''\"\n",
+        "                            elif froufrou_flirt > 1:\n",
+        "                                froufrou \"''Mon dieu, again with zis? Je suis une {i}{b}chatte{/b}{/i}, toi pervers. What 'as broken in zat puny brain of yours zat leads you to try to court me despite zat?''\"\n",
+        "                            else:\n",
+        "                                froufrou \"''Mon dieu, qu'est ce qui ne vas pas chez toi? Je suis une {i}{b}chatte{/b}{/i}, toi pervers.''\"\n",
+        "                                froufrou \"''What 'as broken in zat puny brain of yours zat leads you to try to court me despite zat?''\"\n",
+        "                            jump thursday_froufrou_menu\n",
+        "                        \n",
+        )
+        
+        fwff_thursday_replacement_line = "".join(fwff_thursday_replacement_line_list) + glo_lines[fwff_script_anchor]
+        
+        replace_line(current_file_dir, fwff_script_anchor, fwff_thursday_replacement_line)
+        
+    far_line_file(current_file_dir,
+    "                            if tuesday_froufrou_pet or froufrou_bite_count > 0:\n",
+    "                            if fwff_enjoyingit:\n                                show froufrou counter disgust\n                                froufrou \"''Don't push your luck, dragueur. Ze jester is not to touch ze queen.''\"\n                            elif fwff_thursday_bookhot_flirt:\n                                show froufrou counter disgust\n                                froufrou \"''Mon dieu, non. I shiver to think what you would try to touch after what you just said to me, toi pervers.''\"\n                            elif froufrou_flirt > 0:\n                                show froufrou counter disgust\n                                froufrou \"''Mon dieu, non. I shiver to think what you would try to touch, toi pervers.''\"\n                            elif tuesday_froufrou_pet or froufrou_bite_count > 0:\n",
+    )
+except:
+    patching_unsuccessful()

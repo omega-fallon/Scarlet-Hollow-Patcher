@@ -1,0 +1,63 @@
+ffg_lg = "{font=gui/fonts/PT Mono Regular.ttf}«{/font} "
+ffg_rg = " {font=gui/fonts/PT Mono Regular.ttf}»{/font}"
+
+for x in (r'script.rpy',r'thursday_script\thursday_start.rpy',r'tuesday_script\tuesday_mines_scripts\tuesday_ride_home.rpy',r'tuesday_script\tuesday_start_tabitha.rpy',r'wednesday_script\wednesday_start.rpy'):
+    try:
+        current_file_dir = os.path.join(game_dir, x)
+        attempting_to_patch(current_file_dir)
+        
+        far_string_file(current_file_dir,
+        "froufrou \"''",
+        "froufrou \""+ffg_lg,
+        )
+        
+        far_string_file(current_file_dir,
+        "''\"",
+        ffg_rg+"\"",
+        line_must_also_have="froufrou \""+ffg_lg,
+        )
+        
+        # this is the tricky part
+        glo_lines_update(current_file_dir)
+        
+        ffg_rep_count = 0
+        
+        for i in range(len(glo_lines)):
+            # this line is setting previous_dialogue and doesn't already have guillemets
+            if "$ previous_dialogue = \"''" in glo_lines[i]:
+                # The previous line is froufrou dialogue
+                if "froufrou \""+ffg_lg in glo_lines[i-1]:
+                    # We do the replacements
+                    glo_lines[i] = far_string(glo_lines[i], "\"''", "\""+ffg_lg)
+                    glo_lines[i] = far_string(glo_lines[i], "''\"", ffg_rg+"\"")
+                    ffg_rep_count += 1
+        
+        if ffg_rep_count > 0:
+            out = open(current_file_dir, 'w')
+            out.writelines(glo_lines)
+            out.close()
+            
+            if ffg_rep_count == 1:
+                print("Successfully made 1 replacement.")
+            else:
+                print("Successfully made " + str(ffg_rep_count) + " replacements.")
+    except:
+        patching_unsuccessful()
+        
+for x in (r'script.rpy',):
+    try:
+        current_file_dir = os.path.join(game_dir, x)
+        attempting_to_patch(current_file_dir)
+        
+        far_string_file(current_file_dir,
+        "cat \"''",
+        "cat \""+ffg_lg,
+        )
+        
+        far_string_file(current_file_dir,
+        "''\"",
+        ffg_rg+"\"",
+        line_must_also_have="cat \""+ffg_lg,
+        )
+    except:
+        patching_unsuccessful()
