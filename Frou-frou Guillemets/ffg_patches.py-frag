@@ -1,5 +1,5 @@
-ffg_lg = "{font=gui/fonts/PT Mono Regular.ttf}«{/font} "
-ffg_rg = " {font=gui/fonts/PT Mono Regular.ttf}»{/font}"
+ffg_lg = "{font=gui/fonts/PT Mono Regular.ttf}«{/font} "
+ffg_rg = " {font=gui/fonts/PT Mono Regular.ttf}»{/font}"
 
 for x in (r'script.rpy',r'thursday_script\thursday_start.rpy',r'tuesday_script\tuesday_mines_scripts\tuesday_ride_home.rpy',r'tuesday_script\tuesday_start_tabitha.rpy',r'wednesday_script\wednesday_start.rpy'):
     try:
